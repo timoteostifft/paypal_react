@@ -12,13 +12,24 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 680px;
+
+  @media(min-width: 768px) {
+    margin-top: 60px;
+    flex-direction: row;
+
+    >:nth-child(1) {
+      min-width: 400px;
+    }
+  }
 `;
 
 export const Form = styled.form`
-  max-width: 600px;
+  margin: 0 auto;
   gap: 10px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   button {
     border: 0;
@@ -69,6 +80,38 @@ export const Card = styled.div`
     p {
       font-size: 0.8rem;
       color: #403937;
+    }
+  }
+`;
+
+export const SliderWrapper = styled.section`
+  > div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media(min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > div {
+      flex-direction: column;
+
+      &::-webkit-scrollbar{
+        display: none;
+      }
+
+      span:nth-child(2) {
+        margin-top: 16px;
+      }
     }
   }
 `;
