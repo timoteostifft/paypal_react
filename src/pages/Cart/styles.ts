@@ -1,18 +1,16 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.main`
   min-height: 100vh;
-  background-color: #FAFAFA;
 `
 
 export const Wrapper = styled.div`
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   max-width: 1024px;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 680px;
   
   @media(min-width: 768px) {
     flex-direction: row;
