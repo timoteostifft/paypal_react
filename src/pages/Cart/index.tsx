@@ -13,6 +13,7 @@ import useWindowDimensions from "../../hooks/useWIndowsDimensions";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { PayPalButtons } from "@paypal/react-paypal-js"
 
 const schema = yup.object({
   firtName: yup.string().required("First name is required."),
@@ -87,6 +88,10 @@ export function Cart() {
     }
   }
 
+  async function handleCreateOrder(data: any) {
+    console.log(data)
+  }
+
   return (
     <Container>
       <Header />
@@ -152,9 +157,10 @@ export function Cart() {
             />
           </Card>
 
-        <button type="submit">
+        {/* <button type="submit">
           <span>Pay with Paypal</span>
-        </button>
+        </button> */}
+          <PayPalButtons />
         </Form>
 
         <Card>
