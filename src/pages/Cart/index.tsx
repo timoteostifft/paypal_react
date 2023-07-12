@@ -88,10 +88,6 @@ export function Cart() {
     }
   }
 
-  async function handleCreateOrder(data: any) {
-    console.log(data)
-  }
-
   return (
     <Container>
       <Header />
@@ -156,10 +152,6 @@ export function Cart() {
               error={errors.country?.message}
             />
           </Card>
-
-        {/* <button type="submit">
-          <span>Pay with Paypal</span>
-        </button> */}
           <PayPalButtons />
         </Form>
 
