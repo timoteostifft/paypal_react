@@ -13,9 +13,8 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 10px;
   max-height: 680px;
-
+  
   @media(min-width: 768px) {
-    margin-top: 60px;
     flex-direction: row;
 
     >:nth-child(1) {

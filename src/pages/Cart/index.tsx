@@ -10,13 +10,28 @@ import 'slick-carousel/slick/slick.css';
 import Slider from 'react-slick';
 import { Navigate } from "../../components/Carrousel/Navigate";
 import useWindowDimensions from "../../hooks/useWIndowsDimensions";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
+const schema = yup.object({
+  firtName: yup.string().required("First name is required."),
+  lastName: yup.string().required("Last name is required."),
+  email: yup.string().required("E-mail is required").email("Invalid e-mail."),
+  phone: yup
+    .string()
+    .matches(/^\+1\d{10}$/, 'Invalid phone number.')
+    .required('Phone number is required.'),
+  address: yup.string().required("Address is required."),
+  state: yup.string().required("State or Province is required."),
+  zip: yup.string().required("Zip or Postal code is required."),
+  country: yup.string().required("Country is required.")
+})
+
+type FormType = yup.InferType<typeof schema>;
 
 export function Cart() {
-  const settings = {
-    prevArrow: <Navigate direction="left"/>,
-    nextArrow: <Navigate direction="right"/>
-  };
+  const { width } = useWindowDimensions()
 
   const products: TypeOfProduct[] = [
     {
@@ -31,27 +46,52 @@ export function Cart() {
       price: '4300',
       serial_number: '4218421904821094210484'
     },
-    {
-      id: '2',
-      name: 'IPhone 14',
-      price: '4300',
-      serial_number: '4218421904821094210484'
-    },
-    {
-      id: '2',
-      name: 'IPhone 14',
-      price: '4300',
-      serial_number: '4218421904821094210484'
-    },
   ]
 
-  const { width } = useWindowDimensions()
+  const settings = {
+    prevArrow: <Navigate direction="left"/>,
+    nextArrow: <Navigate direction="right"/>
+  };
+
+  const resolver = yupResolver<FormType>(schema);
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver });
+
+  async function onSubmit({
+    firtName,
+    lastName,
+    email,
+    phone,
+    address,
+    state,
+    zip,
+    country
+  }: FormType) {
+    try {
+      console.log({
+        firtName,
+        lastName,
+        email,
+        phone,
+        address,
+        state,
+        zip,
+        country
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <Container>
       <Header />
       <Wrapper>
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Card>
             <header>
               <AiOutlineUser/>
@@ -62,15 +102,23 @@ export function Cart() {
             </header>
             <Input
               placeholder="First name"
+              register={{...register("firtName")}}
+              error={errors.firtName?.message}
             />
             <Input
               placeholder="Last name"
+              register={{...register("lastName")}}
+              error={errors.lastName?.message}
             />
             <Input
               placeholder="E-mail"
+              register={{...register("email")}}
+              error={errors.email?.message}
             />
             <Input
               placeholder="Phone"
+              register={{...register("phone")}}
+              error={errors.phone?.message}
             />
           </Card>
 
@@ -84,15 +132,23 @@ export function Cart() {
             </header>
             <Input
               placeholder="Address line"
+              register={{...register("address")}}
+              error={errors.address?.message}
             />
             <Input
-              placeholder="State / province"
+              placeholder="State or Province"
+              register={{...register("state")}}
+              error={errors.state?.message}
             />
             <Input
-              placeholder="Zip / Postal code"
+              placeholder="Zip or Postal code"
+              register={{...register("zip")}}
+              error={errors.zip?.message}
             />
             <Input
               placeholder="Country"
+              register={{...register("country")}}
+              error={errors.country?.message}
             />
           </Card>
 

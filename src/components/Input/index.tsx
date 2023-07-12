@@ -1,17 +1,17 @@
-// import { UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn } from "react-hook-form";
 import { Container } from "./styles";
 import { Error } from "../Error";
 
 interface Props extends React.HTMLProps<HTMLInputElement> {
-  // register: UseFormRegisterReturn
+  register: UseFormRegisterReturn
   error?: string
 }
 
-export function Input({ error, placeholder }: Props) {
+export function Input({ error, placeholder, register }: Props) {
   return (
     <Container>
       <input
-        // {...register}
+        {...register}
         type="text"
         placeholder={placeholder}
       />
