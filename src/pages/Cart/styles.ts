@@ -14,6 +14,7 @@ export const Wrapper = styled.div`
   
   @media(min-width: 768px) {
     flex-direction: row;
+    height: 700px;
 
     >:nth-child(1) {
       min-width: 400px;
