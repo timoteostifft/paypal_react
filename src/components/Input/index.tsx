@@ -14,6 +14,7 @@ export function Input({ error, placeholder, register }: Props) {
         {...register}
         type="text"
         placeholder={placeholder}
+        onChange={register.onChange}
       />
       {error && <Error message={error} />}
     </Container>
