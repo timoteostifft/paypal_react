@@ -13,10 +13,10 @@ import useWindowDimensions from "../../hooks/useWIndowsDimensions";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { PayPalButtons } from "@paypal/react-paypal-js"
+import { PaypalPayment } from "../../components/Buttons/PaypalPayment";
 
 const schema = yup.object({
-  firtName: yup.string().required("First name is required."),
+  firstName: yup.string().required("First name is required."),
   lastName: yup.string().required("Last name is required."),
   email: yup.string().required("E-mail is required").email("Invalid e-mail."),
   phone: yup
@@ -29,7 +29,7 @@ const schema = yup.object({
   country: yup.string().required("Country is required.")
 })
 
-type FormType = yup.InferType<typeof schema>;
+export type FormType = yup.InferType<typeof schema>;
 
 export function Cart() {
   const { width } = useWindowDimensions()
@@ -38,13 +38,19 @@ export function Cart() {
     {
       id: '1',
       name: 'Laptop DELL',
-      price: '3420',
+      price: '1200',
       serial_number: '5382905893295032953421'
     },
     {
       id: '2',
       name: 'IPhone 14',
-      price: '4300',
+      price: '2300',
+      serial_number: '4218421904821094210484'
+    },
+    {
+      id: '3',
+      name: 'Playstation 5',
+      price: '2800',
       serial_number: '4218421904821094210484'
     },
   ]
@@ -58,35 +64,12 @@ export function Cart() {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
-  } = useForm({ resolver });
+    getValues,
+  } = useForm({ resolver, mode: 'onChange' });
 
-  async function onSubmit({
-    firtName,
-    lastName,
-    email,
-    phone,
-    address,
-    state,
-    zip,
-    country
-  }: FormType) {
-    try {
-      console.log({
-        firtName,
-        lastName,
-        email,
-        phone,
-        address,
-        state,
-        zip,
-        country
-      })
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  const onSubmit = async (data: FormType) => console.log(data)
 
   return (
     <Container>
@@ -103,22 +86,22 @@ export function Cart() {
             </header>
             <Input
               placeholder="First name"
-              register={{...register("firtName")}}
-              error={errors.firtName?.message}
+              register={register("firstName")}
+              error={errors.firstName?.message}
             />
             <Input
               placeholder="Last name"
-              register={{...register("lastName")}}
+              register={register("lastName")}
               error={errors.lastName?.message}
             />
             <Input
               placeholder="E-mail"
-              register={{...register("email")}}
+              register={register("email")}
               error={errors.email?.message}
             />
             <Input
               placeholder="Phone"
-              register={{...register("phone")}}
+              register={register("phone")}
               error={errors.phone?.message}
             />
           </Card>
@@ -133,26 +116,31 @@ export function Cart() {
             </header>
             <Input
               placeholder="Address line"
-              register={{...register("address")}}
+              register={register("address")}
               error={errors.address?.message}
+              
             />
             <Input
               placeholder="State or Province"
-              register={{...register("state")}}
+              register={register("state")}
               error={errors.state?.message}
             />
             <Input
               placeholder="Zip or Postal code"
-              register={{...register("zip")}}
+              register={register("zip")}
               error={errors.zip?.message}
             />
             <Input
               placeholder="Country"
-              register={{...register("country")}}
+              register={register("country")}
               error={errors.country?.message}
             />
           </Card>
-          <PayPalButtons />
+
+          <PaypalPayment
+            products={products}
+            disabled={!isValid}
+            formData={() => getValues()}/>
         </Form>
 
         <Card>
